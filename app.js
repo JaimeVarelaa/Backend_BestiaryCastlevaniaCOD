@@ -1,12 +1,19 @@
 const http = require('http');
+const express = require('express');
+const cors = require('cors');
+const morgan = require('morgan');
 
-const server = http.createServer((req, res) => {
-  res.writeHead(200, {'Content-Type': 'text/plain'});
-  res.end('Hello, World!\n');
-});
+const enemy = require('./routes/enemy');
 
 const PORT = 3000;
+const app = express();
+app.use(express.json());
 
-server.listen(PORT, () => {
+app.use(cors({ origin: '*' }));
+app.use(morgan('dev'));
+
+app.use('/enemy', enemy);
+
+app.listen(PORT, () => {
   console.log(`Servidor escuchando en el puerto ${PORT}`);
 });
